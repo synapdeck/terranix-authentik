@@ -11,11 +11,6 @@
 
     flake-root.url = "github:srid/flake-root";
 
-    git-hooks-nix = {
-      url = "github:cachix/git-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     terranix = {
       url = "github:typedrat/terranix/expose-config";
       inputs = {
@@ -36,7 +31,6 @@
       imports = [
         inputs.devshell.flakeModule
         inputs.flake-root.flakeModule
-        inputs.git-hooks-nix.flakeModule
         inputs.terranix.flakeModule
         inputs.treefmt-nix.flakeModule
       ];
@@ -67,10 +61,10 @@
             <ul>
             {{#options}}
             <li>
-              <b><u>{{label}}</u></b><br>
-              <b>type</b>: {{type}}<br>
-              <b>default</b>: {{default}}<br>
-              <b>example</b>: {{example}}<br>
+              <b><u><code>{{label}}</code></u></b><br>
+              <b>type</b>: <code>{{type}}</code><br>
+              <b>default</b>: <pre>{{default}}</pre><br>
+              <b>example</b>: <pre>{{example}}</pre><br>
               <b>defined</b>: <a href="{{url}}">{{defined}}</a><br>
               <b>description</b>: {{description}}<br>
             </li>
@@ -80,27 +74,27 @@
         in {
           type = "app";
           program = toString (pkgs.writers.writeBash "options" ''
-            cat ${terranixOptions} | ${pkgs.jq}/bin/jq 'to_entries | .[] | select(.key | startswith("_module") | not) |
+            cat ${terranixOptions} | ${pkgs.jq}/bin/jq 'def removeKeys(s):
+              with_entries(if (.key | startswith(s)) then empty else
+                if (.value | type == "object") then .value |= removeKeys(s) else . end end);
+              removeKeys("_") |
+              to_entries | .[] |
               {
                 label: .key,
                 type: .value.type,
                 description: .value.description,
                 example: .value.example | tojson,
-                default: .value.default | tojson,
+                default: .value.default.text | tojson,
                 defined: .value.declarations[0].path,
                 url: .value.declarations[0].url,
               }' | ${pkgs.jq}/bin/jq -s '{ options: . }' \
               | ${pkgs.mustache-go}/bin/mustache ${mustacheTemplate} \
               > options.md
-            cat ${terranixOptions} | ${pkgs.jq}/bin/jq 'with_entries(select(.key | startswith("_module") | not))' \
-              > options.json
+            cat ${terranixOptions} | ${pkgs.jq}/bin/jq 'def removeKeys(s):
+              with_entries(if (.key | startswith(s)) then empty else
+                if (.value | type == "object") then .value |= removeKeys(s) else . end end);
+              removeKeys("_")' > options.json
           '');
-        };
-
-        pre-commit = {
-          settings.hooks = {
-            treefmt.enable = true;
-          };
         };
 
         treefmt.config = {
@@ -132,14 +126,16 @@
           ];
 
           devshell = {
-            startup.pre-commit.text = config.pre-commit.installationScript;
+            packages = with pkgs; [
+              nodejs
+              nixd
+            ];
           };
         };
       };
 
       flake = {
-        terranixModules.authentik = import ./module;
-        terranixModule.imports = [self.terranixModules.authentik];
+        terranixModules.authentik.imports = [./module];
       };
     });
 }

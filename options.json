@@ -1,1 +1,1173 @@
-{}
+{
+  "authentik.applications": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "{ }"
+    },
+    "description": "Configuration for Authentik applications to be managed by Terranix.",
+    "example": {
+      "text": "authentik.applications = {\n  grafana = {\n    group = \"Monitoring\";\n    description = \"Grafana monitoring dashboard\";\n    icon = \"https://example.com/grafana.png\";\n    accessGroups = [\"admins\" \"monitoring-users\"];\n\n    # OAuth2 provider configuration\n    oauth2 = {\n      clientId = \"grafana\";\n      clientSecret = \"supersecret\";\n      redirectUris = [\n        { url = \"https://grafana.example.com/login/generic_oauth\"; }\n      ];\n      launchUrl = \"https://grafana.example.com\";\n    };\n\n    # Entitlements for in-app permissions\n    entitlements = [\n      {\n        name = \"Grafana Admin\";\n        groups = [\"grafana-admins\"];\n      }\n      {\n        name = \"Grafana Editor\";\n        groups = [\"grafana-editors\"];\n      }\n    ];\n  };\n\n  wiki = {\n    name = \"Internal Wiki\";\n    group = \"Documentation\";\n    description = \"Company documentation\";\n    icon = \"https://example.com/wiki.png\";\n    accessGroups = [\"employees\"];\n\n    # Proxy provider configuration\n    proxy = {\n      externalHost = \"https://wiki.example.com\";\n      basicAuth = {\n        enable = true;\n        username = \"email\";\n        password = \"uid\";\n      };\n    };\n  };\n};\n"
+    },
+    "loc": [
+      "authentik",
+      "applications"
+    ],
+    "readOnly": false,
+    "type": "attribute set of (submodule)"
+  },
+  "authentik.applications.<name>.accessGroups": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "[ ]"
+    },
+    "description": "Groups that can access this application",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "accessGroups"
+    ],
+    "readOnly": false,
+    "type": "list of string"
+  },
+  "authentik.applications.<name>.description": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "\"\""
+    },
+    "description": "A description of the application",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "description"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.enable": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "true"
+    },
+    "description": "Whether to enable this Authentik application definition.",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "enable"
+    ],
+    "readOnly": false,
+    "type": "boolean"
+  },
+  "authentik.applications.<name>.entitlements": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "[ ]"
+    },
+    "description": "Entitlements for in-application permissions",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "entitlements"
+    ],
+    "readOnly": false,
+    "type": "list of (submodule)"
+  },
+  "authentik.applications.<name>.entitlements.*.groups": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "[ ]"
+    },
+    "description": "Groups that have this entitlement",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "entitlements",
+      "*",
+      "groups"
+    ],
+    "readOnly": false,
+    "type": "list of string"
+  },
+  "authentik.applications.<name>.entitlements.*.name": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "description": "The name of the entitlement",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "entitlements",
+      "*",
+      "name"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.extraConfig": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "{ }"
+    },
+    "description": "Extra attributes to pass directly to the authentik_application resource.",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "extraConfig"
+    ],
+    "readOnly": false,
+    "type": "JSON value"
+  },
+  "authentik.applications.<name>.group": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "description": "The group this application belongs to in the UI",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "group"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.icon": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "null"
+    },
+    "description": "URL or path to the application icon",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "icon"
+    ],
+    "readOnly": false,
+    "type": "null or string"
+  },
+  "authentik.applications.<name>.ldap": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "null"
+    },
+    "description": "LDAP provider configuration",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "ldap"
+    ],
+    "readOnly": false,
+    "type": "null or (submodule)"
+  },
+  "authentik.applications.<name>.ldap.baseDn": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "description": "Base DN for LDAP searches",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "ldap",
+      "baseDn"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.ldap.bindMode": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "\"cached\""
+    },
+    "description": "LDAP bind mode",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "ldap",
+      "bindMode"
+    ],
+    "readOnly": false,
+    "type": "one of \"direct\", \"cached\""
+  },
+  "authentik.applications.<name>.ldap.searchMode": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "\"cached\""
+    },
+    "description": "LDAP search mode",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "ldap",
+      "searchMode"
+    ],
+    "readOnly": false,
+    "type": "one of \"direct\", \"cached\""
+  },
+  "authentik.applications.<name>.ldap.tlsServerName": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "description": "TLS server name for LDAP",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "ldap",
+      "tlsServerName"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.name": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "\"‹name›\""
+    },
+    "description": "Display name of the application in Authentik.",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "name"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.oauth2": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "null"
+    },
+    "description": "OAuth2 provider configuration",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "oauth2"
+    ],
+    "readOnly": false,
+    "type": "null or (submodule)"
+  },
+  "authentik.applications.<name>.oauth2.backchannelLdap": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "null"
+    },
+    "description": "LDAP configuration for backchannel authentication",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "oauth2",
+      "backchannelLdap"
+    ],
+    "readOnly": false,
+    "type": "null or (submodule)"
+  },
+  "authentik.applications.<name>.oauth2.backchannelLdap.baseDn": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "description": "Base DN for LDAP searches",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "oauth2",
+      "backchannelLdap",
+      "baseDn"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.oauth2.backchannelLdap.bindMode": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "\"cached\""
+    },
+    "description": "LDAP bind mode",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "oauth2",
+      "backchannelLdap",
+      "bindMode"
+    ],
+    "readOnly": false,
+    "type": "one of \"direct\", \"cached\""
+  },
+  "authentik.applications.<name>.oauth2.backchannelLdap.searchMode": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "\"cached\""
+    },
+    "description": "LDAP search mode",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "oauth2",
+      "backchannelLdap",
+      "searchMode"
+    ],
+    "readOnly": false,
+    "type": "one of \"direct\", \"cached\""
+  },
+  "authentik.applications.<name>.oauth2.backchannelLdap.tlsServerName": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "description": "TLS server name for LDAP",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "oauth2",
+      "backchannelLdap",
+      "tlsServerName"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.oauth2.clientId": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "description": "OAuth2 client ID",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "oauth2",
+      "clientId"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.oauth2.clientSecret": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "description": "OAuth2 client secret",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "oauth2",
+      "clientSecret"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.oauth2.launchUrl": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "\"\""
+    },
+    "description": "URL to launch the application",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "oauth2",
+      "launchUrl"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.oauth2.redirectUris": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "description": "List of allowed redirect URIs",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "oauth2",
+      "redirectUris"
+    ],
+    "readOnly": false,
+    "type": "list of (submodule)"
+  },
+  "authentik.applications.<name>.oauth2.redirectUris.*.matchingMode": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "\"strict\""
+    },
+    "description": "URI matching mode",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "oauth2",
+      "redirectUris",
+      "*",
+      "matchingMode"
+    ],
+    "readOnly": false,
+    "type": "one of \"strict\", \"startsWith\""
+  },
+  "authentik.applications.<name>.oauth2.redirectUris.*.url": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "description": "Redirect URI",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "oauth2",
+      "redirectUris",
+      "*",
+      "url"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.openInNewTab": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "true"
+    },
+    "description": "Specifies if the application should be opened in a new tab.",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "openInNewTab"
+    ],
+    "readOnly": false,
+    "type": "boolean"
+  },
+  "authentik.applications.<name>.policyEngineMode": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "\"any\""
+    },
+    "description": "Policy engine mode.\n- \"any\": Pass if any policy passes.\n- \"all\": Pass if all policies pass.\n",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "policyEngineMode"
+    ],
+    "readOnly": false,
+    "type": "one of \"any\", \"all\""
+  },
+  "authentik.applications.<name>.protocolProvider": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "null"
+    },
+    "description": "Reference to an existing provider. Use this only if you're not using the built-in provider options.",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "protocolProvider"
+    ],
+    "readOnly": false,
+    "type": "null or string"
+  },
+  "authentik.applications.<name>.proxy": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "null"
+    },
+    "description": "Proxy provider configuration",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "proxy"
+    ],
+    "readOnly": false,
+    "type": "null or (submodule)"
+  },
+  "authentik.applications.<name>.proxy.basicAuth.enable": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "false"
+    },
+    "description": "Enable passing basic authentication to the proxied application",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "proxy",
+      "basicAuth",
+      "enable"
+    ],
+    "readOnly": false,
+    "type": "boolean"
+  },
+  "authentik.applications.<name>.proxy.basicAuth.password": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "\"password\""
+    },
+    "description": "User/group attribute to use for password",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "proxy",
+      "basicAuth",
+      "password"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.proxy.basicAuth.username": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "\"username\""
+    },
+    "description": "User/group attribute to use for username",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "proxy",
+      "basicAuth",
+      "username"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.proxy.externalHost": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "description": "External host URL for the proxy",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "proxy",
+      "externalHost"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.slug": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "\"‹name›\""
+    },
+    "description": "Internal slug for the application (e.g., for URLs). Defaults to the application's attribute name.",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "slug"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.applications.<name>.tfResourceName": {
+    "declarations": [
+      {
+        "channelPath": "/module/applications.nix",
+        "path": "module/applications.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/applications.nix"
+      }
+    ],
+    "default": {
+      "text": "\"‹name›\""
+    },
+    "description": "Explicitly set the Terraform resource name. Defaults to the application's attribute name.",
+    "loc": [
+      "authentik",
+      "applications",
+      "<name>",
+      "tfResourceName"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.headers": {
+    "declarations": [
+      {
+        "channelPath": "/module",
+        "path": "module",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule"
+      }
+    ],
+    "default": {
+      "text": "{ }"
+    },
+    "description": "Additional headers to send with requests to Authentik.",
+    "loc": [
+      "authentik",
+      "headers"
+    ],
+    "readOnly": false,
+    "type": "attribute set of string"
+  },
+  "authentik.host": {
+    "declarations": [
+      {
+        "channelPath": "/module",
+        "path": "module",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule"
+      }
+    ],
+    "description": "The URL of your Authentik instance",
+    "example": {
+      "text": "\"https://auth.example.com/\""
+    },
+    "loc": [
+      "authentik",
+      "host"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.insecure": {
+    "declarations": [
+      {
+        "channelPath": "/module",
+        "path": "module",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule"
+      }
+    ],
+    "default": {
+      "text": "false"
+    },
+    "description": "Whether to allow insecure connections to Authentik.",
+    "loc": [
+      "authentik",
+      "insecure"
+    ],
+    "readOnly": false,
+    "type": "boolean"
+  },
+  "authentik.outpostSettings": {
+    "declarations": [
+      {
+        "channelPath": "/module/outposts.nix",
+        "path": "module/outposts.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/outposts.nix"
+      }
+    ],
+    "default": {
+      "text": "{ }"
+    },
+    "description": "Global configuration to apply to all outposts",
+    "loc": [
+      "authentik",
+      "outpostSettings"
+    ],
+    "readOnly": false,
+    "type": "JSON value"
+  },
+  "authentik.outposts.ldap.config": {
+    "declarations": [
+      {
+        "channelPath": "/module/outposts.nix",
+        "path": "module/outposts.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/outposts.nix"
+      }
+    ],
+    "default": {
+      "text": "{ }"
+    },
+    "description": "Additional configuration for the LDAP outpost",
+    "loc": [
+      "authentik",
+      "outposts",
+      "ldap",
+      "config"
+    ],
+    "readOnly": false,
+    "type": "attribute set"
+  },
+  "authentik.outposts.ldap.enable": {
+    "declarations": [
+      {
+        "channelPath": "/module/outposts.nix",
+        "path": "module/outposts.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/outposts.nix"
+      }
+    ],
+    "default": {
+      "text": "false"
+    },
+    "description": "Whether to enable the LDAP outpost",
+    "loc": [
+      "authentik",
+      "outposts",
+      "ldap",
+      "enable"
+    ],
+    "readOnly": false,
+    "type": "boolean"
+  },
+  "authentik.outposts.ldap.name": {
+    "declarations": [
+      {
+        "channelPath": "/module/outposts.nix",
+        "path": "module/outposts.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/outposts.nix"
+      }
+    ],
+    "default": {
+      "text": "\"LDAP Outpost\""
+    },
+    "description": "The name of the LDAP outpost",
+    "loc": [
+      "authentik",
+      "outposts",
+      "ldap",
+      "name"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.outposts.ldap.providers": {
+    "declarations": [
+      {
+        "channelPath": "/module/outposts.nix",
+        "path": "module/outposts.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/outposts.nix"
+      }
+    ],
+    "default": {
+      "text": "[ ]"
+    },
+    "description": "List of LDAP provider IDs",
+    "loc": [
+      "authentik",
+      "outposts",
+      "ldap",
+      "providers"
+    ],
+    "readOnly": false,
+    "type": "list of string"
+  },
+  "authentik.outposts.ldap.tfResourceName": {
+    "declarations": [
+      {
+        "channelPath": "/module/outposts.nix",
+        "path": "module/outposts.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/outposts.nix"
+      }
+    ],
+    "default": {
+      "text": "\"ldap\""
+    },
+    "description": "The Terraform resource name for the LDAP outpost",
+    "loc": [
+      "authentik",
+      "outposts",
+      "ldap",
+      "tfResourceName"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.outposts.proxy.name": {
+    "declarations": [
+      {
+        "channelPath": "/module/outposts.nix",
+        "path": "module/outposts.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/outposts.nix"
+      }
+    ],
+    "default": {
+      "text": "\"authentik Embedded Outpost\""
+    },
+    "description": "The name of the Proxy outpost",
+    "loc": [
+      "authentik",
+      "outposts",
+      "proxy",
+      "name"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.outposts.proxy.providers": {
+    "declarations": [
+      {
+        "channelPath": "/module/outposts.nix",
+        "path": "module/outposts.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/outposts.nix"
+      }
+    ],
+    "default": {
+      "text": "[ ]"
+    },
+    "description": "List of proxy provider IDs for the embedded outpost",
+    "loc": [
+      "authentik",
+      "outposts",
+      "proxy",
+      "providers"
+    ],
+    "readOnly": false,
+    "type": "list of string"
+  },
+  "authentik.outposts.proxy.tfResourceName": {
+    "declarations": [
+      {
+        "channelPath": "/module/outposts.nix",
+        "path": "module/outposts.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/outposts.nix"
+      }
+    ],
+    "default": {
+      "text": "\"embedded-outpost\""
+    },
+    "description": "The Terraform resource name for the embedded outpost",
+    "loc": [
+      "authentik",
+      "outposts",
+      "proxy",
+      "tfResourceName"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.outposts.radius.config": {
+    "declarations": [
+      {
+        "channelPath": "/module/outposts.nix",
+        "path": "module/outposts.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/outposts.nix"
+      }
+    ],
+    "default": {
+      "text": "{ }"
+    },
+    "description": "Additional configuration for the RADIUS outpost",
+    "loc": [
+      "authentik",
+      "outposts",
+      "radius",
+      "config"
+    ],
+    "readOnly": false,
+    "type": "attribute set"
+  },
+  "authentik.outposts.radius.enable": {
+    "declarations": [
+      {
+        "channelPath": "/module/outposts.nix",
+        "path": "module/outposts.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/outposts.nix"
+      }
+    ],
+    "default": {
+      "text": "false"
+    },
+    "description": "Whether to enable the RADIUS outpost",
+    "loc": [
+      "authentik",
+      "outposts",
+      "radius",
+      "enable"
+    ],
+    "readOnly": false,
+    "type": "boolean"
+  },
+  "authentik.outposts.radius.name": {
+    "declarations": [
+      {
+        "channelPath": "/module/outposts.nix",
+        "path": "module/outposts.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/outposts.nix"
+      }
+    ],
+    "default": {
+      "text": "\"RADIUS Outpost\""
+    },
+    "description": "The name of the RADIUS outpost",
+    "loc": [
+      "authentik",
+      "outposts",
+      "radius",
+      "name"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.outposts.radius.providers": {
+    "declarations": [
+      {
+        "channelPath": "/module/outposts.nix",
+        "path": "module/outposts.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/outposts.nix"
+      }
+    ],
+    "default": {
+      "text": "[ ]"
+    },
+    "description": "List of RADIUS provider IDs",
+    "loc": [
+      "authentik",
+      "outposts",
+      "radius",
+      "providers"
+    ],
+    "readOnly": false,
+    "type": "list of string"
+  },
+  "authentik.outposts.radius.tfResourceName": {
+    "declarations": [
+      {
+        "channelPath": "/module/outposts.nix",
+        "path": "module/outposts.nix",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule/outposts.nix"
+      }
+    ],
+    "default": {
+      "text": "\"radius\""
+    },
+    "description": "The Terraform resource name for the RADIUS outpost",
+    "loc": [
+      "authentik",
+      "outposts",
+      "radius",
+      "tfResourceName"
+    ],
+    "readOnly": false,
+    "type": "string"
+  },
+  "authentik.token": {
+    "declarations": [
+      {
+        "channelPath": "/module",
+        "path": "module",
+        "url": "https://github.com/synapdeck/terranix-authentik/tree/main/modulemodule"
+      }
+    ],
+    "default": {
+      "text": "null"
+    },
+    "description": "The token for your Authentik instance, or null to use the AUTHENTIK_TOKEN variable.",
+    "example": {
+      "text": "\"your_token_here\""
+    },
+    "loc": [
+      "authentik",
+      "token"
+    ],
+    "readOnly": false,
+    "type": "null or string"
+  }
+}

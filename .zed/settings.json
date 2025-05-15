@@ -1,0 +1,16 @@
+{
+  "languages": {
+    "Nix": {
+      "language_servers": ["nixd", "!nil", "codebook"],
+      "format_on_save": "on"
+    }
+  },
+  "context_servers": {
+    "terraform-registry": {
+      "command": {
+        "path": "npx",
+        "args": ["-y", "terraform-mcp-server"]
+      }
+    }
+  }
+}
