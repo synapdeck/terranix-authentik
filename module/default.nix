@@ -43,7 +43,7 @@ in {
     };
 
     provider.authentik = {
-      inherit (config.authentik) host;
+      url = config.authentik.host;
       token = lib.mkIf (config.authentik.token != null) config.authentik.token;
       inherit (config.authentik) insecure;
       inherit (config.authentik) headers;
