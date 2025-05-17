@@ -316,16 +316,6 @@ in {
   };
 
   config = mkIf (config.authentik.applications != {} && config.authentik.applications != null) {
-    assertions = flatten (mapAttrsToList (
-        name: cfg:
-          lib.optional (cfg.enable && cfg.oauth2 != null && cfg.oauth2.clientType == "confidential" && cfg.oauth2.clientSecret == null)
-          {
-            assertion = false;
-            message = "Error in application '${name}': clientSecret must not be null for confidential OAuth2 clients";
-          }
-      )
-      config.authentik.applications);
-
     resource = {
       # --- Generate OAuth2 providers based on application configurations ---
       authentik_provider_oauth2 = mapAttrs' (
