@@ -134,7 +134,7 @@ in {
           "${config.authentik.outposts.proxy.tfResourceName}" = {
             inherit (config.authentik.outposts.proxy) name;
             type = "proxy";
-            protocol_providers = config.authentik.outposts.embedded.providers;
+            protocol_providers = config.authentik.outposts.proxy.providers;
           };
         }
 
