@@ -74,29 +74,28 @@
         in {
           type = "app";
           program = toString (pkgs.writers.writeBash "options" ''
-            cat ${terranixOptions} | ${pkgs.jq}/bin/jq 'def removeKeys(s):
-              with_entries(if (.key | startswith(s)) then empty else
-                if (.value | type == "object") then .value |= removeKeys(s) else . end end);
-              removeKeys("_") |
-              to_entries | .[] |
-              {
-                label: .key,
-                type: .value.type,
-                description: .value.description,
-                example: .value.example | tojson,
-                default: .value.default.text | tojson,
-                defined: .value.declarations[0].path,
-                url: .value.declarations[0].url,
-              }' | ${pkgs.jq}/bin/jq -s '{ options: . }' \
-              | ${pkgs.mustache-go}/bin/mustache ${mustacheTemplate} \
-              > options.md
-            cat ${terranixOptions} | ${pkgs.jq}/bin/jq 'def removeKeys(s):
-              with_entries(if (.key | startswith(s)) then empty else
-                if (.value | type == "object") then .value |= removeKeys(s) else . end end);
-              removeKeys("_")' > options.json
+                cat ${terranixOptions} | ${pkgs.jq}/bin/jq 'def removeKeys(s):
+                  with_entries(if (.key | startswith(s)) then empty else
+                    if (.value | type == "object") then .value |= removeKeys(s) else . end end);
+                  removeKeys("_") |
+                  to_entries | .[] |
+                  {
+                    label: .key,
+                    type: .value.type,
+                    description: .value.description,
+                    example: (if .value.example | has("text") then .value.example.text else .value.example end),
+                    default: (if .value.default | has("text") then .value.default.text else .value.default end),
+                    defined: .value.declarations[0].path,
+                    url: .value.declarations[0].url,
+                  }' | ${pkgs.jq}/bin/jq -s '{ options: . }' \
+                  | ${pkgs.mustache-go}/bin/mustache ${mustacheTemplate} \
+                  > options.md
+                cat ${terranixOptions} | ${pkgs.jq}/bin/jq 'def removeKeys(s):
+                  with_entries(if (.key | startswith(s)) then empty else
+                    if (.value | type == "object") then .value |= removeKeys(s) else . end end);
+                  removeKeys("_")' > options.json
           '');
         };
-
         treefmt.config = {
           inherit (config.flake-root) projectRootFile;
           package = pkgs.treefmt;

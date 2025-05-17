@@ -131,8 +131,8 @@ in {
       resource.authentik_outpost = mkMerge [
         # Embedded outpost
         {
-          "${config.authentik.outposts.embedded.tfResourceName}" = {
-            inherit (config.authentik.outposts.embedded) name;
+          "${config.authentik.outposts.proxy.tfResourceName}" = {
+            inherit (config.authentik.outposts.proxy) name;
             type = "proxy";
             protocol_providers = config.authentik.outposts.embedded.providers;
           };
