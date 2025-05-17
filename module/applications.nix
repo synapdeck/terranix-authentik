@@ -145,7 +145,8 @@ in {
         };
 
         group = mkOption {
-          type = types.str;
+          type = types.nullOr types.str;
+          default = null;
           description = "The group this application belongs to in the UI";
         };
 
