@@ -57,8 +57,15 @@
       };
 
       clientSecret = mkOption {
-        type = types.str;
-        description = "OAuth2 client secret";
+        type = types.nullOr types.str;
+        default = null;
+        description = "OAuth2 client secret (can be null for public clients)";
+      };
+
+      clientType = mkOption {
+        type = types.enum ["confidential" "public"];
+        default = "confidential";
+        description = "OAuth2 client type, either confidential (can securely store client secrets) or public (cannot securely store secrets, like mobile or browser-based apps)";
       };
 
       redirectUris = mkOption {
@@ -145,8 +152,8 @@ in {
         };
 
         group = mkOption {
-          type = types.nullOr types.str;
-          default = null;
+          type = types.str;
+          default = "";
           description = "The group this application belongs to in the UI";
         };
 
@@ -244,7 +251,8 @@ in {
           # OAuth2 provider configuration
           oauth2 = {
             clientId = "grafana";
-            clientSecret = "supersecret";
+            clientSecret = "supersecret"; # Required for confidential clients
+            clientType = "confidential"; # server-side app that can store secrets
             redirectUris = [
               { url = "https://grafana.example.com/login/generic_oauth"; }
             ];
@@ -281,11 +289,43 @@ in {
             };
           };
         };
+
+        mobileapp = {
+          name = "Mobile Application";
+          group = "Apps";
+          description = "Mobile application using OAuth2";
+          icon = "https://example.com/app.png";
+          accessGroups = ["employees"];
+
+          # OAuth2 configuration for a public client (mobile app)
+          oauth2 = {
+            clientId = "mobileapp";
+            clientSecret = null; # Null for public clients
+            clientType = "public"; # Mobile app that cannot securely store secrets
+            redirectUris = [
+              {
+                url = "com.example.app:/oauth2callback";
+                matchingMode = "exact";
+              }
+            ];
+            launchUrl = "com.example.app:/home";
+          };
+        };
       };
     '';
   };
 
   config = mkIf (config.authentik.applications != {} && config.authentik.applications != null) {
+    assertions = flatten (mapAttrsToList (
+        name: cfg:
+          lib.optional (cfg.enable && cfg.oauth2 != null && cfg.oauth2.clientType == "confidential" && cfg.oauth2.clientSecret == null)
+          {
+            assertion = false;
+            message = "Error in application '${name}': clientSecret must not be null for confidential OAuth2 clients";
+          }
+      )
+      config.authentik.applications);
+
     resource = {
       # --- Generate OAuth2 providers based on application configurations ---
       authentik_provider_oauth2 = mapAttrs' (
@@ -296,7 +336,11 @@ in {
             authorization_flow = config.data.authentik_flow.default-authorization-flow "id";
             invalidation_flow = config.data.authentik_flow.default-provider-invalidation-flow "id";
             client_id = cfg.oauth2.clientId;
-            client_secret = cfg.oauth2.clientSecret;
+            client_secret =
+              if cfg.oauth2.clientSecret == null
+              then ""
+              else cfg.oauth2.clientSecret;
+            client_type = cfg.oauth2.clientType;
             allowed_redirect_uris =
               map (uri: {
                 inherit (uri) url;
