@@ -292,8 +292,8 @@ in {
           nameValuePair
           "${name}-oauth2" {
             name = "${cfg.name} (OAuth2)";
-            authorization_flow = config.data.authentik_flow.default_authorization_flow "id";
-            invalidation_flow = config.data.authentik_flow.default_provider_invalidation_flow "id";
+            authorization_flow = config.data.authentik_flow.default-authorization-flow "id";
+            invalidation_flow = config.data.authentik_flow.default-provider-invalidation-flow "id";
             client_id = cfg.oauth2.clientId;
             client_secret = cfg.oauth2.clientSecret;
             allowed_redirect_uris =
@@ -318,8 +318,8 @@ in {
             basic_auth_password_attribute = mkIf cfg.proxy.basicAuth.enable cfg.proxy.basicAuth.password;
             mode = "forward_single";
             access_token_validity = "days=1";
-            authorization_flow = config.data.authentik_flow.default_authorization_flow "id";
-            invalidation_flow = config.data.authentik_flow.default_provider_invalidation_flow "id";
+            authorization_flow = config.data.authentik_flow.default-authorization-flow "id";
+            invalidation_flow = config.data.authentik_flow.default-provider-invalidation-flow "id";
           }
       ) (filterAttrs (_name: cfg: cfg.enable && cfg.proxy != null) config.authentik.applications);
 
