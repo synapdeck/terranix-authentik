@@ -97,6 +97,12 @@
         description = "OAuth2 subject mode. Determines how user identifiers are included in tokens.";
       };
 
+      additionalScopes = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        description = "List of additional OAuth2 scopes to request";
+      };
+
       extraConfig = mkOption {
         inherit (json) type;
         default = {};
@@ -362,7 +368,10 @@ in {
               })
               cfg.oauth2.redirectUris;
             sub_mode = cfg.oauth2.subMode;
-            property_mappings = config.data.authentik_property_mapping_provider_scope.with_entitlements "ids";
+            property_mappings =
+              if cfg.oauth2.additionalScopes != []
+              then config.data.authentik_property_mapping_provider_scope."${name}-with-scopes" "ids"
+              else config.data.authentik_property_mapping_provider_scope.with_entitlements "ids";
           }
           // cfg.oauth2.extraConfig
       ) (filterAttrs (_name: cfg: cfg.enable && cfg.oauth2 != null) config.authentik.applications);
@@ -583,14 +592,36 @@ in {
       ) (filterAttrs (_name: cfg: cfg.enable && cfg.proxy != null) config.authentik.applications);
     };
 
-    # --- Property mappings for OAuth2 with entitlements ---
-    data.authentik_property_mapping_provider_scope.with_entitlements = {
-      managed_list = [
+    data.authentik_property_mapping_provider_scope = let
+      default_scopes = [
         "goauthentik.io/providers/oauth2/scope-openid"
         "goauthentik.io/providers/oauth2/scope-email"
         "goauthentik.io/providers/oauth2/scope-profile"
         "goauthentik.io/providers/oauth2/scope-entitlements"
       ];
-    };
+    in
+      {
+        with_entitlements = {
+          managed_list = default_scopes;
+        };
+      }
+      // mapAttrs'
+      (
+        name: cfg:
+          nameValuePair "${name}-with-scopes" {
+            managed_list =
+              default_scopes
+              ++ (
+                map
+                (scope: "goauthentik.io/providers/oauth2/scope-${scope}")
+                cfg.oauth2.additionalScopes
+              );
+          }
+      )
+      (
+        filterAttrs
+        (_: cfg: cfg.enable && cfg.oauth2 != null && cfg.oauth2.additionalScopes != [])
+        config.authentik.applications
+      );
   };
 }
