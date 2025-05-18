@@ -17,14 +17,14 @@
       };
 
       bindMode = mkOption {
-        type = types.enum ["direct" "search"];
-        default = "search";
-        description = "LDAP binding mode";
+        type = types.enum ["direct" "cached"];
+        default = "cached";
+        description = "LDAP bind mode";
       };
 
       searchMode = mkOption {
-        type = types.enum ["direct" "anonymous"];
-        default = "anonymous";
+        type = types.enum ["direct" "cached"];
+        default = "cached";
         description = "LDAP search mode";
       };
 
@@ -363,7 +363,8 @@ in {
               cfg.oauth2.redirectUris;
             sub_mode = cfg.oauth2.subMode;
             property_mappings = config.data.authentik_property_mapping_provider_scope.with_entitlements "ids";
-          } // cfg.oauth2.extraConfig
+          }
+          // cfg.oauth2.extraConfig
       ) (filterAttrs (_name: cfg: cfg.enable && cfg.oauth2 != null) config.authentik.applications);
 
       # --- Generate Proxy providers based on application configurations ---
@@ -380,7 +381,8 @@ in {
             access_token_validity = "days=1";
             authorization_flow = config.data.authentik_flow.default-authorization-flow "id";
             invalidation_flow = config.data.authentik_flow.default-provider-invalidation-flow "id";
-          } // cfg.proxy.extraConfig
+          }
+          // cfg.proxy.extraConfig
       ) (filterAttrs (_name: cfg: cfg.enable && cfg.proxy != null) config.authentik.applications);
 
       # --- Generate LDAP providers based on application configurations ---
@@ -397,7 +399,8 @@ in {
               bind_flow = config.data.authentik_flow.default_authentication_flow "id";
               unbind_flow = config.data.authentik_flow.default_invalidation_flow "id";
               tls_server_name = cfg.ldap.tlsServerName;
-            } // cfg.ldap.extraConfig
+            }
+            // cfg.ldap.extraConfig
         ) (filterAttrs (_name: cfg: cfg.enable && cfg.ldap != null) config.authentik.applications))
 
         # Backchannel LDAP providers
@@ -412,7 +415,8 @@ in {
                 bind_flow = config.data.authentik_flow.default_authentication_flow "id";
                 unbind_flow = config.data.authentik_flow.default_invalidation_flow "id";
                 tls_server_name = cfg.oauth2.backchannelLdap.tlsServerName;
-              } // cfg.oauth2.backchannelLdap.extraConfig
+              }
+              // cfg.oauth2.backchannelLdap.extraConfig
           ) (filterAttrs (
               _name: cfg:
                 cfg.enable && cfg.oauth2 != null && cfg.oauth2.backchannelLdap != null
